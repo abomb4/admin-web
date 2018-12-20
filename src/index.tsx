@@ -23,16 +23,13 @@ const store = createStore(
         routerMiddleware(history)
     )
 );
-const a = Resizers.createResizerContext(300);
 
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedRouter history={history}>
-            <a.Provider value="">
-                <Router>
-                    <Route path="/" component={App} />
-                </Router>
-            </a.Provider>
+            <Router>
+                <Route path="/" component={App} />
+            </Router>
         </ConnectedRouter>
     </Provider>,
     document.getElementById('root') as HTMLElement

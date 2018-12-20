@@ -18,6 +18,7 @@
     "eofline": true,
     "arrow-return-shorthand": true,
     "encoding": true,
+    "no-console":false,
     "whitespace": [
       true,
       "check-branch",
