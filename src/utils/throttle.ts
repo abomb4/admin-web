@@ -18,15 +18,15 @@
  * @returns 与原函数相同，只是增加了延迟
  */
 const throttle = (fn: () => any, delay: number) => {
-    let timer: NodeJS.Timeout;
-    return function (this: any) {
-        const context = this;
-        const args = arguments;
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            fn.apply(context, args);
-        }, delay);
-    };
+  let timer: NodeJS.Timeout;
+  return function (this: any) {
+    const context = this;
+    const args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(context, args);
+    }, delay);
+  };
 };
 
 export default throttle;

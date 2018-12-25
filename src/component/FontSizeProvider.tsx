@@ -1,57 +1,129 @@
 import * as React from 'react';
-import ResizerContext from 'src/context/ResizerContext';
+import throttle from 'src/utils/throttle';
 
 /**
- * 基于屏幕宽度的计算方法
- * 当宽度为1920时，认为字体倍率为1（16px为基准）
+ * 字体大小缩放比率
  */
-export function getRelativeFontScale() {
-    const html = document.querySelector('html');
-    if (html) {
-        const width = html.getBoundingClientRect().width;
-        return width / 1920;
-    } else {
-        return 1;
-    }
-}
-
-/**
- * 基于屏幕宽度的计算方法
- * 当宽度为1920时，认为字体大小为16px
- */
-export function getRelativeFontSize() {
-    return 16 * getRelativeFontScale();
-}
-
 export interface IFontSize {
-    fontScale: number;
-    fontSize: number;
+  /** 字体放大倍数 */
+  fontScale: number;
+  /** 字体大小，当1倍时该数字为16 */
+  fontSize: number;
+}
+
+const defaultFontSize = {
+  fontScale: 1,
+  fontSize: 16
+};
+
+/**
+ * 全局的 React Context
+ */
+const context = React.createContext(defaultFontSize);
+
+export const FontSizeConsumer = context.Consumer;
+
+const defaultFontBaseWidth = 1920;
+
+/**
+ * 基于屏幕宽度的计算方法
+ * 当宽度为 baseWidth 时，认为字体倍率为1（16px为基准）
+ *
+ * @param baseWidth 宽度基准，当屏幕宽度为此数字时认为字体为16px
+ */
+export function getRelativeFontScale(baseWidth: number) {
+  const html = document.querySelector('html');
+  if (html) {
+    const width = html.getBoundingClientRect().width;
+    return width / baseWidth;
+  } else {
+    return 1;
+  }
+}
+
+/**
+ * 基于屏幕宽度的放大比率计算方法
+ *
+ * @param baseWidth 宽度基准，当屏幕宽度为此数字时认为字体为 1 倍
+ */
+export function getRelativeFontSize(baseWidth: number) {
+  return 16 * getRelativeFontScale(baseWidth);
 }
 
 interface IState {
-    theme: number
+  fontSize: IFontSize
 }
 interface IProps {
-
+  /** Resize 事件执行延迟，毫秒为单位 */
+  delay?: number;
+  /** 是否在窗口大小改变后更新html标签的字体大小 */
+  updateRem?: boolean;
+  /** 屏幕目标宽度，当屏幕宽度为该数字时为1倍缩放16px字体 */
+  baseWidth?: number;
+  children?: JSX.Element | JSX.Element[];
 }
+
+const emptyFunction: () => any = () => { return; };
+
+/**
+ * 基于屏幕宽度的字体大小变化Context。
+ *
+ * 此类适合需要自动缩放的场景使用，如大屏展示、手机页面
+ */
 export default class FontSizeProvider extends React.Component<IProps, IState> {
-    public state = {
-        theme: 1
+  public state = {
+    fontSize: {
+      fontScale: getRelativeFontScale(defaultFontBaseWidth),
+      fontSize: getRelativeFontSize(defaultFontBaseWidth),
+    }
+  };
+
+  public componentDidMount() {
+    this.windowResized();
+    const delay = this.props.delay ? this.props.delay : 300;
+    this.throttleOnWindowResized = throttle(() => this.windowResized(), delay);
+    window.addEventListener('resize', this.throttleOnWindowResized);
+  }
+
+  public componentWillUnmount() {
+    window.removeEventListener('resize', this.throttleOnWindowResized);
+    this.throttleOnWindowResized = emptyFunction;
+  }
+
+  public throttleOnWindowResized: () => any = () => { return; };
+
+  public render() {
+    return (
+      <context.Provider value={this.state.fontSize}>
+        {this.props.children}
+      </context.Provider>
+    );
+  }
+
+  /**
+   * 窗口resize之后的响应方法
+   */
+  private windowResized() {
+    const baseWidth = this.props.baseWidth ? this.props.baseWidth : defaultFontBaseWidth;
+    const newFontSize = {
+      fontScale: getRelativeFontScale(baseWidth),
+      fontSize: getRelativeFontSize(baseWidth),
     };
 
-    public changeTheme = () => {
-        this.setState({
-            theme: 1
-        });
+    if (this.state.fontSize.fontSize !== newFontSize.fontSize
+      && this.state.fontSize.fontScale !== newFontSize.fontScale) {
+      this.updateRemIfNeed();
+      this.setState({ fontSize: newFontSize });
     }
+  }
 
-    public render() {
-        return (
-            <ResizerContext.Provider value={this.state.theme}>
-                <div>
-                    <button onClick={this.changeTheme}>Toggle Theme</button>
-                </div>
-            </ResizerContext.Provider>
-        );
+  /**
+   * 更新HTML标签的字体大小
+   */
+  private updateRemIfNeed() {
+    const baseWidth = this.props.baseWidth ? this.props.baseWidth : defaultFontBaseWidth;
+    if (this.props.updateRem) {
+      document.getElementsByTagName('html')[0].style.fontSize = getRelativeFontSize(baseWidth) + 'px';
     }
+  }
 }
