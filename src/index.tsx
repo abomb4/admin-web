@@ -8,7 +8,6 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import App from './App';
 import FontSizeProvider from './component/FontSizeProvider';
-import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 
 // Init history
