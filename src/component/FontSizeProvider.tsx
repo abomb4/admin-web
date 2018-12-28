@@ -65,6 +65,8 @@ interface IProps {
 
 const emptyFunction: () => any = () => { return; };
 
+let providerMounted = 0;
+
 /**
  * 基于屏幕宽度的字体大小变化Context。
  *
@@ -79,6 +81,10 @@ export default class FontSizeProvider extends React.Component<IProps, IState> {
   };
 
   public componentDidMount() {
+    if (providerMounted > 0) {
+      console.error('Don\'t mount multiple FontSizeProvider component!');
+    }
+    providerMounted++;
     this.windowResized();
     const delay = this.props.delay ? this.props.delay : 300;
     this.throttleOnWindowResized = throttle(() => this.windowResized(), delay);
@@ -86,6 +92,7 @@ export default class FontSizeProvider extends React.Component<IProps, IState> {
   }
 
   public componentWillUnmount() {
+    providerMounted--;
     window.removeEventListener('resize', this.throttleOnWindowResized);
     this.throttleOnWindowResized = emptyFunction;
   }
