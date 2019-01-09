@@ -21,7 +21,7 @@ const throttle = (fn: () => any, delay: number) => {
   let timer: NodeJS.Timeout;
   return function (this: any) {
     const context = this;
-    const args = arguments;
+    const [args] = Array.from(arguments)
     clearTimeout(timer);
     timer = setTimeout(() => {
       fn.apply(context, args);

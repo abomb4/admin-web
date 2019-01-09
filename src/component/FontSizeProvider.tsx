@@ -1,5 +1,5 @@
 import * as React from 'react';
-import throttle from 'src/utils/throttle';
+import throttle from '../utils/throttle';
 
 /**
  * 字体大小缩放比率
