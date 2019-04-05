@@ -1,18 +1,59 @@
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+# admin-web
 
-# About this project
-This project is currently useless for others, just for personal learning.
+## Project setup
+```
+npm install
+```
 
-But I may need a skilled modern web framework, one Angular, Vue or react.
-Then I choose React because it seems have better ecosystem than other frameworks.
+### VSCode setup
+Only these plugins is enough:
+- Vetur
+- ESLint
+- EditorConfig for VS Code
+- TSLint Vue-TSX (May need this)
 
-So I try to combine popular modules surrounding React, to this repository.
-If I need some web development demand, I may try this framework.
+Paste these settings:
+```json
+"eslint.validate": [
+    {
+        "language": "vue",
+        "autoFix": true
+    },
+    {
+        "language": "html",
+        "autoFix": true
+    },
+    {
+        "language": "javascript",
+        "autoFix": true
+    }
+]
+```
 
-Main technologies:
-- React 16.7
-- TypeScript 3.2
-- Sass
-- React Router 4
-- Redux 4
-- ReduxSaga
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Run your tests
+```
+npm run test
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Run your unit tests
+```
+npm run test:unit
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
