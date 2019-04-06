@@ -2,3 +2,6 @@
 @import '~iview/dist/styles/iview.css';
 @import './internal/reset.scss';
 
+html {
+    font-size: $aw-font-size;
+}
