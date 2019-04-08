@@ -1,4 +1,4 @@
-import { Condition } from "@/utils/permission-expression";
+import { Condition } from '@/utils/permission-expression';
 import { ExtendedVue } from 'vue/types/vue';
 
 interface Menu {
@@ -13,9 +13,7 @@ interface Menu {
   /** Children menu */
   children: Menu[];
   /** Vue component */
-  component?: () => Promise<typeof import("*.vue")> | typeof import('*.vue');
+  component?: () => Promise<typeof import('*.vue')> | typeof import('*.vue');
   /** String list based permission checking */
   permission: Condition<string>;
 }
-
-var a = () => import('@/components/App.vue');

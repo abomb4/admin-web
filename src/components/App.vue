@@ -1,19 +1,18 @@
 <template>
-  <root-layout msg="sggggggg">
-    <router-view />
-  </root-layout>
+  <router-view />
 </template>
 
 <script lang="tsx">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import RootLayout from '@/components/layouts/RootLayout.vue';
 
-@Component({
-  components: {
-    RootLayout
-  }
-})
+@Component({})
 export default class App extends Vue {
-
 }
 </script>
+
+<style lang="scss">
+#app {
+  min-height: 100%;
+  height: 100%;
+}
+</style>

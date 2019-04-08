@@ -38,6 +38,7 @@
         </i-header>
         <i-content class="aw-root-layout-content">
           <slot />
+          <router-view />
         </i-content>
         <i-footer class="aw-root-layout-footer">
           The administration web application based on vue by abomb4.
@@ -105,6 +106,7 @@ html, body, .aw-root-layout {
   .aw-root-layout-main > .wrapper {
     position: relative;
     padding-bottom: $aw-footer-height;
+    min-height: 100%;
   }
 
   .aw-root-layout-content {

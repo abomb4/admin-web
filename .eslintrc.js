@@ -16,6 +16,8 @@ module.exports = {
     'indent': ['error', 2],
     'space-before-function-paren': [ 2, 'never' ],
     'vue/max-attributes-per-line': [ 0 ],
+    'object-property-newline': [ 0 ],
+    'vue/singleline-html-element-content-newline': [ 0 ],
     semi: [ 2, 'always' ]
   },
   parserOptions: {

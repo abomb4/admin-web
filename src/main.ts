@@ -4,6 +4,7 @@ import router from './router';
 import store from './store';
 import iView from 'iview';
 import '@/assets/styles/base.scss';
+import '@/assets/styles/ivu.scss';
 import './registerServiceWorker';
 
 Vue.config.productionTip = false;
