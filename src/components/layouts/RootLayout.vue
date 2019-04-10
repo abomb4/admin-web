@@ -17,24 +17,22 @@
 <template>
   <i-layout class="aw-root-layout">
     <i-sider ref="sider" class="aw-root-layout-sider"
-             hide-trigger collapsible :collapsed-width="78"
+             collapsible :collapsed-width="78"
     >
-      <div class="aw-logo">
-        <svg viewBox="0 0 2300 580" fill="#3399ff">
-          <path d="M535.441,412.339A280.868,280.868 0 1,1 536.186,161.733L284.493,286.29Z" />
-          <text x="660" y="450" style="font-size: 420px;" fill="#ffffff">Admin</text>
-        </svg>
+      <div class="wrapper">
+        <div class="aw-logo">
+          <svg viewBox="0 0 2300 580" fill="#3399ff">
+            <path d="M535.441,412.339A280.868,280.868 0 1,1 536.186,161.733L284.493,286.29Z" />
+            <text x="660" y="450" style="font-size: 420px;" fill="#ffffff">Admin</text>
+          </svg>
+        </div>
+        <left-menu />
       </div>
-      <left-menu />
     </i-sider>
     <i-layout class="aw-root-layout-main">
       <div class="wrapper">
         <i-header class="aw-root-layout-header">
-          <i-icon
-            type="md-menu"
-            size="24"
-            @click.native="collapsedSider"
-          />
+          <i-icon type="md-menu" size="24" @click.native="collapsedSider" />
         </i-header>
         <i-content class="aw-root-layout-content">
           <slot />
@@ -69,7 +67,6 @@ $aw-footer-height: 64px;
 
 html, body, .aw-root-layout {
   height: 100%;
-  min-height: 320px;
 }
 
 .aw-root-layout {
@@ -85,6 +82,15 @@ html, body, .aw-root-layout {
 
   .aw-root-layout-sider, .ivu-menu-dark {
     background-color: $aw-color-bg-background-reserve;
+  }
+
+  .aw-root-layout-sider {
+
+    .ivu-layout-sider-children > .wrapper {
+      overflow-x: hidden;
+      padding-bottom: 48px;
+      height: 100%;
+    }
   }
   .aw-logo {
     height: $aw-header-height;
@@ -103,10 +109,12 @@ html, body, .aw-root-layout {
     transition: all .3s;
   }
 
-  .aw-root-layout-main > .wrapper {
-    position: relative;
-    padding-bottom: $aw-footer-height;
-    min-height: 100%;
+  .aw-root-layout-main {
+    overflow: hidden;
+    & > .wrapper {
+      position: relative;
+      overflow-x: hidden;
+    }
   }
 
   .aw-root-layout-content {
@@ -116,7 +124,6 @@ html, body, .aw-root-layout {
   }
 
   .aw-root-layout-footer {
-    position: absolute;
     bottom: 0;
     width: 100%;
     color: $aw-color-fg;
