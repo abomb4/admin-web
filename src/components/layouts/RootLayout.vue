@@ -17,7 +17,7 @@
 <template>
   <i-layout class="aw-root-layout">
     <i-sider ref="sider" class="aw-root-layout-sider"
-             collapsible :collapsed-width="78"
+             hide-trigger collapsible :collapsed-width="78"
     >
       <div class="wrapper">
         <div class="aw-logo">
